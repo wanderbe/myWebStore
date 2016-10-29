@@ -1,6 +1,7 @@
 
 package com.sidorovich.internetshop.domain.dao;
 
+import com.sidorovich.internetshop.domain.entity.GroupOfProduct;
 import com.sidorovich.internetshop.domain.entity.Products;
 import com.sidorovich.internetshop.domain.main.HibernateUtil;
 import java.util.List;
@@ -30,12 +31,12 @@ public class ProductsDaoImpl extends DaoSceleton implements ProductsDao{
     } 
 
     @Override
-    public List<Products> getProductsByGroupIdList(int idGroup) {
+    public List<Products> getByGroupOfProducts(GroupOfProduct productGroup) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Criteria crit = session.createCriteria(Products.class)
-                .add(Restrictions.eq("idproductGroup", idGroup));
-        List<Products> pL = (List<Products>)crit.list();
+                .add(Restrictions.eq("productGroup", productGroup));
+        List<Products> pL = crit.list();
         session.close();
         return pL;
-    }
+    } 
 }

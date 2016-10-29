@@ -10,7 +10,7 @@
 <html>
     <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<title>FishingShop </title>
+	<title>FishingShop</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
 	<!--[if lte IE 6]><link rel="stylesheet" href="css/ie6.css" type="text/css" media="all" /><![endif]-->
 	
@@ -37,9 +37,9 @@
 		<div id="cart">
 			<a href="#" class="cart-link">Your Shopping Cart</a>
 			<div class="cl">&nbsp;</div>
-			<span>Articles: <strong>4</strong></span>
+			<span>Articles: <strong>${amount}</strong></span>
 			&nbsp;&nbsp;
-			<span>Cost: <strong>$250.99</strong></span>
+			<span>Cost: <strong>${amount}</strong></span>
 		</div>
 		<!-- End Cart -->
 		
@@ -90,16 +90,18 @@
                                     <c:forEach var="p" items="${products}">
                                        <li>
 				    	  <a href="productcurd?idproduct=${p.idProduct}"><img src="css/images/images_for_products/${p.image}.jpg" alt="" /></a>
-				    	  <div class="product-info">
+				    	  <div class="product-info" position="relative">
+                                                <div position="absolute" top="0px" right="0px">
+                                                    <form method=post action="products?idproduct=${p.idProduct}">
+                                                        <input type="submit" value="BAY"></input>
+                                                    </form>  
+                                                </div>
 				    		<h3>${p.name}</h3>
-				    		<div class="product-desc">
-								<h4>${p.idproductGroup}</h4>
+				    		  <div class="product-desc">
+						    <h4>${p.productGroup.nameProductGroup}</h4>
 				    			<p>${p.discriptionProduct}</p>
 				    			<strong class="price">${p.idPrice} uah</strong>
-                                                        <form action="productcurd?idproduct=${p.idProduct}">
-                                                            <input type="submit" value="BAY">
-                                                            </input>
-                                                        </form>
+
 				    		</div>
 				    	  </div>
 			    	       </li>

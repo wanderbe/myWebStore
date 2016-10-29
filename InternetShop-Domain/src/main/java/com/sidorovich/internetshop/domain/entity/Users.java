@@ -6,7 +6,9 @@
 package com.sidorovich.internetshop.domain.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,8 +16,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -59,6 +63,8 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @Column(name = "phone")
     private String phone;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUser")
+    private List<Orders> ordersList;
 
     public Users() {
     }
@@ -133,6 +139,15 @@ public class Users implements Serializable {
         this.phone = phone;
     }
 
+    @XmlTransient
+    public List<Orders> getOrdersList() {
+        return ordersList;
+    }
+
+    public void setOrdersList(List<Orders> ordersList) {
+        this.ordersList = ordersList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -155,9 +170,7 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-        return "Users{" + "id=" + id + ", login=" + login + ", fname=" + fname + ", lname=" + lname + ", email=" + email + ", phone=" + phone + '}';
+        return "com.sidorovich.internetshop.domain.entity.Users[ id=" + id + " ]";
     }
-
-    
     
 }

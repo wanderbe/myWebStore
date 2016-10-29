@@ -33,8 +33,15 @@ public class GroupOfProductServiceImpl implements GroupOfProductService {
     }
 
     @Override
-    public Object getById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Object getById(int id) throws SQLException {
+            GroupOfProduct groupOfProduct = null;
+        try{
+            GroupOfProductDao groupOfProductDao = new GroupOfProductDaoImpl();
+            groupOfProduct = (GroupOfProduct)groupOfProductDao.getById(id);
+            return groupOfProduct;
+        }catch(Exception e){
+            throw new SQLException("List of products not founded");
+        }
     }
 
     @Override

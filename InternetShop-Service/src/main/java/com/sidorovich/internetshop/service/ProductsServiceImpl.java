@@ -7,6 +7,7 @@ package com.sidorovich.internetshop.service;
 
 import com.sidorovich.internetshop.domain.dao.ProductsDao;
 import com.sidorovich.internetshop.domain.dao.ProductsDaoImpl;
+import com.sidorovich.internetshop.domain.entity.GroupOfProduct;
 import com.sidorovich.internetshop.domain.entity.Products;
 import java.sql.SQLException;
 import java.util.List;
@@ -61,7 +62,8 @@ public class ProductsServiceImpl implements ProductsService {
         List<Products> pL = null;
         try{
             ProductsDao productsDao = new ProductsDaoImpl();
-            pL = productsDao.getProductsByGroupIdList(idgroup);
+            GroupOfProductService groupOfProductService = new GroupOfProductServiceImpl();
+            pL = productsDao.getByGroupOfProducts((GroupOfProduct)groupOfProductService.getById(idgroup));
             return pL;
         }catch(Exception e){
             throw new SQLException("List of products not founded");

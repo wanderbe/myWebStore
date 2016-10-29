@@ -5,6 +5,7 @@
  */
 package com.sidorovich.internetshop.domain.dao;
 
+import com.sidorovich.internetshop.domain.entity.GroupOfProduct;
 import com.sidorovich.internetshop.domain.entity.Products;
 import java.util.List;
 
@@ -14,5 +15,5 @@ import java.util.List;
  */
 public interface ProductsDao extends Dao{
     List<Products> getProductsList();
-    List<Products> getProductsByGroupIdList(int idgroup);
+    public List<Products> getByGroupOfProducts(GroupOfProduct productGroup);
 }

@@ -80,23 +80,24 @@
 				<div class="cl">&nbsp;</div>
 				
 				    	  
-				    	  <div>
-                                              <table>
+				    	  <div position="relative">
+                                                <table>
                                                   <tr>
                                                       <td>
                                                         <h3>${product.name}</h3>  
                                                       </td>
                                                       <td>
-                                                          <form action="productcurd?idproduct=${product.idProduct}">
-                                                            <input type="submit" value="BAY">
-                                                            </input>
-                                                          </form>
+                                                          <div position="absolute" right="0px">
+                                                            <form action="productcurd?idproduct=${product.idProduct}">
+                                                              <input type="submit" value="BAY"></input>
+                                                            </form>
+                                                          </div>
                                                       </td>
                                                   </tr>
-                                              </table>
+                                                </table>
 				    		
 				    		<div class="product-desc">
-								<h4>${product.nameProductGroup}</h4>
+								<h4>${product.productGroup.nameProductGroup}</h4>
 				    			<p>${product.discriptionProduct}</p>
 				    			<strong class="price">${product.idPrice} uah</strong>
                                                         

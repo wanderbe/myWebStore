@@ -12,10 +12,11 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -35,7 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Orders.findAll", query = "SELECT o FROM Orders o"),
     @NamedQuery(name = "Orders.findByIdOrder", query = "SELECT o FROM Orders o WHERE o.idOrder = :idOrder"),
-    @NamedQuery(name = "Orders.findByIdUser", query = "SELECT o FROM Orders o WHERE o.idUser = :idUser"),
     @NamedQuery(name = "Orders.findByDateStart", query = "SELECT o FROM Orders o WHERE o.dateStart = :dateStart"),
     @NamedQuery(name = "Orders.findByDateFinish", query = "SELECT o FROM Orders o WHERE o.dateFinish = :dateFinish"),
     @NamedQuery(name = "Orders.findByState", query = "SELECT o FROM Orders o WHERE o.state = :state"),
@@ -49,9 +49,6 @@ public class Orders implements Serializable {
     @Column(name = "id_order")
     private Integer idOrder;
     @Basic(optional = false)
-    @Column(name = "id_user")
-    private int idUser;
-    @Basic(optional = false)
     @Column(name = "date_start")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateStart;
@@ -63,8 +60,11 @@ public class Orders implements Serializable {
     private String state;
     @Column(name = "note")
     private String note;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idOrder", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idOrder")
     private List<ItemsInOrders> itemsInOrdersList;
+    @JoinColumn(name = "id_user", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Users idUser;
 
     public Orders() {
     }
@@ -73,9 +73,8 @@ public class Orders implements Serializable {
         this.idOrder = idOrder;
     }
 
-    public Orders(Integer idOrder, int idUser, Date dateStart, String state) {
+    public Orders(Integer idOrder, Date dateStart, String state) {
         this.idOrder = idOrder;
-        this.idUser = idUser;
         this.dateStart = dateStart;
         this.state = state;
     }
@@ -86,14 +85,6 @@ public class Orders implements Serializable {
 
     public void setIdOrder(Integer idOrder) {
         this.idOrder = idOrder;
-    }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
     }
 
     public Date getDateStart() {
@@ -137,6 +128,14 @@ public class Orders implements Serializable {
         this.itemsInOrdersList = itemsInOrdersList;
     }
 
+    public Users getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Users idUser) {
+        this.idUser = idUser;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -159,9 +158,7 @@ public class Orders implements Serializable {
 
     @Override
     public String toString() {
-        return "Orders{" + "idOrder=" + idOrder + ", idUser=" + idUser + ", dateStart=" + dateStart + ", dateFinish=" + dateFinish + ", state=" + state + ", note=" + note + ", itemsInOrdersList=" + itemsInOrdersList + '}';
+        return "com.sidorovich.internetshop.domain.entity.Orders[ idOrder=" + idOrder + " ]";
     }
-
-
     
 }

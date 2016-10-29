@@ -8,7 +8,10 @@ package com.sidorovich.internetshop.service;
 import com.sidorovich.internetshop.domain.entity.GroupOfProduct;
 import com.sidorovich.internetshop.domain.entity.Products;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -16,11 +19,16 @@ import java.util.List;
  */
 public class Main {
     public static void main(String[] args) throws SQLException {
-        GroupOfProductService productsService = new GroupOfProductServiceImpl();
-        List<GroupOfProduct> pL= productsService.getGroupOfProductList();
-        for(GroupOfProduct p: pL){
-            System.out.println(p);
-        }
+        CookieParserImpl cookieParser = new CookieParserImpl();
+        Map<Integer, Integer> map = new HashMap();
+        
+        
+        
+        Map<Integer, Integer> map1 = new HashMap<>();
+        map1.put(1, 1);
+        map1.put(2, 1);
+        
+        System.out.println(cookieParser.mapToStringForCookie(map1));
     }
     
 }

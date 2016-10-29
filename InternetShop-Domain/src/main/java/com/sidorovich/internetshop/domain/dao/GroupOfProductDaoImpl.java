@@ -29,4 +29,6 @@ public class GroupOfProductDaoImpl extends DaoSceleton implements GroupOfProduct
         session.close();
         return gp;
     } 
+
+
 }

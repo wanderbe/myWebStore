@@ -6,6 +6,7 @@
 package com.sidorovich.internetshop.domain.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,8 +15,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,7 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "GroupOfProduct.findAll", query = "SELECT g FROM GroupOfProduct g"),
     @NamedQuery(name = "GroupOfProduct.findByIdProductGroup", query = "SELECT g FROM GroupOfProduct g WHERE g.idProductGroup = :idProductGroup"),
     @NamedQuery(name = "GroupOfProduct.findByNameProductGroup", query = "SELECT g FROM GroupOfProduct g WHERE g.nameProductGroup = :nameProductGroup"),
-    @NamedQuery(name = "GroupOfProduct.findByDiscriptionProductGroup", query = "SELECT g FROM GroupOfProduct g WHERE g.discriptionProductGroup = :discriptionProductGroup")})
+    @NamedQuery(name = "GroupOfProduct.findByDiscriptionProductGroup", query = "SELECT g FROM GroupOfProduct g WHERE g.discriptionProductGroup = :discriptionProductGroup"),
+    @NamedQuery(name = "GroupOfProduct.findByImage", query = "SELECT g FROM GroupOfProduct g WHERE g.image = :image")})
 public class GroupOfProduct implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,6 +47,10 @@ public class GroupOfProduct implements Serializable {
     @Basic(optional = false)
     @Column(name = "discription_product_group")
     private String discriptionProductGroup;
+    @Column(name = "image")
+    private String image;
+    @OneToMany(mappedBy = "productGroup")
+    private List<Products> productsList;
 
     public GroupOfProduct() {
     }
@@ -81,6 +89,23 @@ public class GroupOfProduct implements Serializable {
         this.discriptionProductGroup = discriptionProductGroup;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    @XmlTransient
+    public List<Products> getProductsList() {
+        return productsList;
+    }
+
+    public void setProductsList(List<Products> productsList) {
+        this.productsList = productsList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -103,9 +128,7 @@ public class GroupOfProduct implements Serializable {
 
     @Override
     public String toString() {
-        return "GroupOfProduct{" + "idProductGroup=" + idProductGroup + ", nameProductGroup=" + nameProductGroup + ", discriptionProductGroup=" + discriptionProductGroup + '}';
+        return "com.sidorovich.internetshop.domain.entity.GroupOfProduct[ idProductGroup=" + idProductGroup + " ]";
     }
-
-
     
 }

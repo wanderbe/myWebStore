@@ -11,6 +11,7 @@ import com.sidorovich.internetshop.domain.entity.Products;
 import com.sidorovich.internetshop.service.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,7 +41,8 @@ public class ProductsByGroupServlet extends HttpServlet {
             
             request.getRequestDispatcher("products.jsp").forward(request, response);
         } catch (SQLException ex) {
-            response.sendError(404, "List of products not founded");
+            response.sendError(404, "List of products not founded" + Arrays.toString(ex.getStackTrace()));
+            
         }
     }
 

@@ -6,19 +6,23 @@
 package com.sidorovich.internetshop.domain.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,7 +37,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Products.findByName", query = "SELECT p FROM Products p WHERE p.name = :name"),
     @NamedQuery(name = "Products.findByImage", query = "SELECT p FROM Products p WHERE p.image = :image"),
     @NamedQuery(name = "Products.findByStock", query = "SELECT p FROM Products p WHERE p.stock = :stock"),
-    @NamedQuery(name = "Products.findByIdproductGroup", query = "SELECT p FROM Products p WHERE p.idproductGroup = :idproductGroup"),
     @NamedQuery(name = "Products.findByIdPrice", query = "SELECT p FROM Products p WHERE p.idPrice = :idPrice")})
 public class Products implements Serializable {
 
@@ -43,29 +46,25 @@ public class Products implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_product")
     private Integer idProduct;
-    
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-    
     @Lob
     @Column(name = "discription_product")
     private String discriptionProduct;
-    
     @Column(name = "image")
     private String image;
-    
     @Basic(optional = false)
     @Column(name = "stock")
     private int stock;
-    
-    
-    @Column(name = "id_productGroup")
-    private Integer idproductGroup;
-    
     @Basic(optional = false)
     @Column(name = "id_price")
     private int idPrice;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProduct")
+    private List<ItemsInOrders> itemsInOrdersList;
+    @JoinColumn(name = "id_productGroup", referencedColumnName = "id_product_group")
+    @ManyToOne
+    private GroupOfProduct productGroup;
 
     public Products() {
     }
@@ -121,20 +120,29 @@ public class Products implements Serializable {
         this.stock = stock;
     }
 
-    public Integer getIdproductGroup() {
-        return idproductGroup;
-    }
-
-    public void setIdproductGroup(Integer idproductGroup) {
-        this.idproductGroup = idproductGroup;
-    }
-
     public int getIdPrice() {
         return idPrice;
     }
 
     public void setIdPrice(int idPrice) {
         this.idPrice = idPrice;
+    }
+
+    @XmlTransient
+    public List<ItemsInOrders> getItemsInOrdersList() {
+        return itemsInOrdersList;
+    }
+
+    public void setItemsInOrdersList(List<ItemsInOrders> itemsInOrdersList) {
+        this.itemsInOrdersList = itemsInOrdersList;
+    }
+
+    public GroupOfProduct getProductGroup() {
+        return productGroup;
+    }
+
+    public void setIdproductGroup(GroupOfProduct productGroup) {
+        this.productGroup = productGroup;
     }
 
     @Override

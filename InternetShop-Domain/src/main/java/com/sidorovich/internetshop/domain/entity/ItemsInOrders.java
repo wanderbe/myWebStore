@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +29,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ItemsInOrders.findAll", query = "SELECT i FROM ItemsInOrders i"),
     @NamedQuery(name = "ItemsInOrders.findByIdProductInOrder", query = "SELECT i FROM ItemsInOrders i WHERE i.idProductInOrder = :idProductInOrder"),
-    @NamedQuery(name = "ItemsInOrders.findByIdProduct", query = "SELECT i FROM ItemsInOrders i WHERE i.idProduct = :idProduct"),
     @NamedQuery(name = "ItemsInOrders.findByAmount", query = "SELECT i FROM ItemsInOrders i WHERE i.amount = :amount")})
 public class ItemsInOrders implements Serializable {
 
@@ -41,14 +39,14 @@ public class ItemsInOrders implements Serializable {
     @Column(name = "id_product_in_order")
     private Integer idProductInOrder;
     @Basic(optional = false)
-    @Column(name = "id_product")
-    private int idProduct;
-    @Basic(optional = false)
     @Column(name = "amount")
     private int amount;
     @JoinColumn(name = "id_order", referencedColumnName = "id_order")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Orders idOrder;
+    @JoinColumn(name = "id_product", referencedColumnName = "id_product")
+    @ManyToOne(optional = false)
+    private Products idProduct;
 
     public ItemsInOrders() {
     }
@@ -57,9 +55,8 @@ public class ItemsInOrders implements Serializable {
         this.idProductInOrder = idProductInOrder;
     }
 
-    public ItemsInOrders(Integer idProductInOrder, int idProduct, int amount) {
+    public ItemsInOrders(Integer idProductInOrder, int amount) {
         this.idProductInOrder = idProductInOrder;
-        this.idProduct = idProduct;
         this.amount = amount;
     }
 
@@ -69,14 +66,6 @@ public class ItemsInOrders implements Serializable {
 
     public void setIdProductInOrder(Integer idProductInOrder) {
         this.idProductInOrder = idProductInOrder;
-    }
-
-    public int getIdProduct() {
-        return idProduct;
-    }
-
-    public void setIdProduct(int idProduct) {
-        this.idProduct = idProduct;
     }
 
     public int getAmount() {
@@ -93,6 +82,14 @@ public class ItemsInOrders implements Serializable {
 
     public void setIdOrder(Orders idOrder) {
         this.idOrder = idOrder;
+    }
+
+    public Products getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(Products idProduct) {
+        this.idProduct = idProduct;
     }
 
     @Override
@@ -117,9 +114,7 @@ public class ItemsInOrders implements Serializable {
 
     @Override
     public String toString() {
-        return "ItemsInOrders{" + "idProductInOrder=" + idProductInOrder + ", idProduct=" + idProduct + ", amount=" + amount + ", idOrder=" + idOrder + '}';
+        return "com.sidorovich.internetshop.domain.entity.ItemsInOrders[ idProductInOrder=" + idProductInOrder + " ]";
     }
-
-
     
 }
